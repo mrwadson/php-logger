@@ -5,14 +5,15 @@ Ease to use simple file logger written on php which implement all the log levels
 
 ## Requirements
 
-- PHP >= 5.6
+- PHP >= 5.6 (for wide using)
 
 ## Installation
 
 Install through [composer](https://getcomposer.org/doc/00-intro.md):
 
 ```shell
-composer install --no-dev # or without --no-dev  flag if need the tests
+composer install --no-dev # or without --no-dev flag if need the tests
+composer update mrwadson/logger # or if already composer.lock file exists
 ```
 
 To add as a VCS repository add following lines in your `composer.json` file:
@@ -40,16 +41,16 @@ Just use the logger in your code like this:
 
 require __DIR__ . '/vendor/autoload.php';
 
-use App\Log;
+use mrwadson\logger\Log;
 
 // Setup log dir
-Log::set(['logFileDir' => __DIR__ . '/log']);
+Log::set(['log_file_dir' => __DIR__ . '/log']);
 
 // Log row
 Log::log('Your logged message');
 
 // Log array as debug in one row
-Log::set(['logArrayInOneRow' => true]);
+Log::set(['log_array_in_one_row' => true]);
 Log::debug([
     'Key first' => 'The first value of the array',
     'Key second' => 'The second value of the array'
@@ -78,10 +79,10 @@ Buffer captured example:
 
 require __DIR__ . '/vendor/autoload.php';
 
-use App\Log;
+use mrwadson\logger\Log;
 
 // Setup log dir
-Log::set(['logFileDir' => __DIR__ . '/log']);
+Log::set(['log_file_dir' => __DIR__ . '/log']);
 
 Log::obStart();
 echo 'This is a first record.' . PHP_EOL;
@@ -105,10 +106,10 @@ Timer example:
 
 require __DIR__ . '/vendor/autoload.php';
 
-use App\Log;
+use mrwadson\logger\Log;
 
 // Setup log dir
-Log::set(['logFileDir' => __DIR__ . '/log', 'overwriteLogFile' => true]);
+Log::set(['log_file_dir' => __DIR__ . '/log', 'overwrite_log_file' => true]);
 
 Log::timeStart();
 sleep(3);

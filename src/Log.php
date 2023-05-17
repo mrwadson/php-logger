@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace mrwadson\logger;
 
 use BadMethodCallException;
 use RuntimeException;
@@ -41,14 +41,14 @@ class Log
      * @var string[]
      */
     private static $options = [
-        'logFileDir' => __DIR__ . '/../log', // dir contains your logs
-        'logFileFormat' => 'log-%D%.log', // %DIR% - log file dir, %D% - date
-        'logMessageFormat' => '[%D%]: %L% - %M%', // %D% - date, %L% - log level, %M% - message
-        'logArrayInOneRow' => false,
-        'overwriteLogFile' => false,
-        'immediatelyWriteLog' => false,
-        'dateFileFormat' => 'Y-m-d',
-        'dateMessageFormat' => 'Y-m-d H:i:s'
+        'log_file_dir' => __DIR__ . '/../log', // dir contains your logs
+        'log_file_format' => 'log-%D%.log', // %DIR% - log file dir, %D% - date
+        'log_message_format' => '[%D%]: %L% - %M%', // %D% - date, %L% - log level, %M% - message
+        'log_array_in_one_row' => false,
+        'overwrite_log_file' => false,
+        'immediately_write_log' => false,
+        'date_file_format' => 'Y-m-d',
+        'date_message_format' => 'Y-m-d H:i:s'
     ];
 
     /**
@@ -64,7 +64,7 @@ class Log
     /**
      * Prepare log message for further logging
      *
-     * @param $message - can be string or an array
+     * @param $message - can be string, or an array
      *
      * @return void
      */
@@ -72,27 +72,27 @@ class Log
     {
         if (is_array($message)) {
             $message = rtrim(print_r($message, true), PHP_EOL);
-            if (self::$options['logArrayInOneRow']) {
+            if (self::$options['log_array_in_one_row']) {
                 $message = str_replace(['    ', PHP_EOL], '', $message);
             }
         }
 
         $message = self::formatMessage($message, $level) . PHP_EOL;
 
-        if (self::$options['immediatelyWriteLog']) {
+        if (self::$options['immediately_write_log']) {
             self::write($message);
         } else {
             self::$messages[] = $message;
         }
 
-        if (self::$firstLog && !self::$options['immediatelyWriteLog']) {
+        if (self::$firstLog && !self::$options['immediately_write_log']) {
             self::$firstLog = false;
             register_shutdown_function([__CLASS__, 'write']);
         }
     }
 
     /**
-     * Write message(s) to the log file
+     * Write a message(s) to the log file
      *
      * @param $message - message for the immediate log
      *
@@ -101,7 +101,7 @@ class Log
     public static function write($message = null)
     {
         $data = $message ?: self::$messages;
-        if (!$message && self::$options['overwriteLogFile'] && self::$options['immediatelyWriteLog']) {
+        if (!$message && self::$options['overwrite_log_file'] && self::$options['immediately_write_log']) {
             $data = null;
         }
         if ($data) {
@@ -109,7 +109,7 @@ class Log
             if (!file_exists($dir = dirname($logFile)) && !mkdir($dir, 0777, true) && !is_dir($dir)) {
                 throw new RuntimeException(sprintf('Directory "%s" was not created', $dir));
             }
-            file_put_contents($logFile, $data, ((!self::$options['overwriteLogFile']) ? FILE_APPEND : 0) | LOCK_EX);
+            file_put_contents($logFile, $data, ((!self::$options['overwrite_log_file']) ? FILE_APPEND : 0) | LOCK_EX);
         }
     }
 
@@ -187,10 +187,10 @@ class Log
     private static function formatMessage($message, $level)
     {
         return str_replace(['%D%', '%M%', '%L%'], [
-            date(self::$options['dateMessageFormat']),
+            date(self::$options['date_message_format']),
             $message,
             strtoupper($level)
-        ], self::$options['logMessageFormat']);
+        ], self::$options['log_message_format']);
     }
 
     /**
@@ -200,11 +200,11 @@ class Log
      */
     private static function formatLogFile()
     {
-        return self::$options['logFileDir'] . '/' . str_replace('%D%', date(self::$options['dateFileFormat']), self::$options['logFileFormat']);
+        return self::$options['log_file_dir'] . '/' . str_replace('%D%', date(self::$options['date_file_format']), self::$options['log_file_format']);
     }
 
     /**
-     * Static function which is called automatically when there is no such name static method
+     * Static function, which is called automatically when there is no such name static method.
      *
      * @param $name
      * @param $arguments
