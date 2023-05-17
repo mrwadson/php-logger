@@ -41,7 +41,7 @@ class Log
      * @var string[]
      */
     private static $options = [
-        'log_file_dir' => __DIR__ . '/../log', // dir contains your logs
+        'log_dir' => __DIR__ . '/../log', // dir contains your logs
         'log_file_format' => 'log-%D%.log', // %DIR% - log file dir, %D% - date
         'log_message_format' => '[%D%]: %L% - %M%', // %D% - date, %L% - log level, %M% - message
         'log_array_in_one_row' => false,
@@ -60,6 +60,20 @@ class Log
      * @var bool
      */
     private static $firstLog = true;
+
+    /**
+     * Set or Get options for the logger
+     *
+     * @param string[] $options
+     * @return void | array
+     */
+    public static function options($options)
+    {
+        if (!is_array($options)) {
+            return self::$options;
+        }
+        self::$options = array_merge(static::$options, $options);
+    }
 
     /**
      * Prepare log message for further logging
@@ -157,26 +171,6 @@ class Log
     }
 
     /**
-     * Set options for the logger
-     *
-     * @param string[] $options
-     */
-    public static function set(array $options)
-    {
-        self::$options = array_merge(static::$options, $options);
-    }
-
-    /**
-     * Get options of the logger
-     *
-     * @return string[]
-     */
-    public static function get()
-    {
-        return self::$options;
-    }
-
-    /**
      * Format logging message
      *
      * @param $message
@@ -200,7 +194,7 @@ class Log
      */
     private static function formatLogFile()
     {
-        return self::$options['log_file_dir'] . '/' . str_replace('%D%', date(self::$options['date_file_format']), self::$options['log_file_format']);
+        return self::$options['log_dir'] . '/' . str_replace('%D%', date(self::$options['date_file_format']), self::$options['log_file_format']);
     }
 
     /**

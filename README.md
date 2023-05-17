@@ -44,13 +44,13 @@ require __DIR__ . '/vendor/autoload.php';
 use mrwadson\logger\Log;
 
 // Setup log dir
-Log::set(['log_file_dir' => __DIR__ . '/log']);
+Log::options(['log_dir' => __DIR__ . '/log']);
 
 // Log row
 Log::log('Your logged message');
 
 // Log array as debug in one row
-Log::set(['log_array_in_one_row' => true]);
+Log::options(['log_array_in_one_row' => true]);
 Log::debug([
     'Key first' => 'The first value of the array',
     'Key second' => 'The second value of the array'
@@ -82,7 +82,7 @@ require __DIR__ . '/vendor/autoload.php';
 use mrwadson\logger\Log;
 
 // Setup log dir
-Log::set(['log_file_dir' => __DIR__ . '/log']);
+Log::options(['log_dir' => __DIR__ . '/log']);
 
 Log::obStart();
 echo 'This is a first record.' . PHP_EOL;
@@ -109,7 +109,7 @@ require __DIR__ . '/vendor/autoload.php';
 use mrwadson\logger\Log;
 
 // Setup log dir
-Log::set(['log_file_dir' => __DIR__ . '/log', 'overwrite_log_file' => true]);
+Log::options(['log_dir' => __DIR__ . '/log', 'overwrite_log_file' => true]);
 
 Log::timeStart();
 sleep(3);
