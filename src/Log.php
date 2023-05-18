@@ -41,7 +41,7 @@ class Log
      * @var string[]
      */
     private static $options = [
-        'log_dir' => __DIR__ . '/../log', // dir contains your logs
+        'log_dir' => null, // if null -> by default "log" dir (in executed script directory)
         'log_file_format' => 'log-%D%.log', // %DIR% - log file dir, %D% - date
         'log_message_format' => '[%D%]: %L% - %M%', // %D% - date, %L% - log level, %M% - message
         'log_array_in_one_row' => false,
@@ -73,6 +73,19 @@ class Log
             return self::$options;
         }
         self::$options = array_merge(static::$options, $options);
+        self::$options['log_dir'] =  self::$options['log_dir'] ?: self::initiateDir();
+    }
+
+    /**
+     * Get initiate dir for setting as log dir
+     *
+     * @return string
+     */
+    private static function initiateDir()
+    {
+        $stack = debug_backtrace();
+        $firstFrame = $stack[count($stack) - 1];
+        return dirname($firstFrame['file']) . '/log';
     }
 
     /**

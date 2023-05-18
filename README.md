@@ -43,8 +43,8 @@ require __DIR__ . '/vendor/autoload.php';
 
 use mrwadson\logger\Log;
 
-// Setup log dir
-Log::options(['log_dir' => __DIR__ . '/log']);
+// Setup log dir (default "log" dir)
+// Log::options(['log_dir' => __DIR__ . '/log']);
 
 // Log row
 Log::log('Your logged message');

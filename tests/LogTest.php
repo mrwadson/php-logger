@@ -7,7 +7,11 @@ class LogTest extends TestCase
 {
     public function testFileLogExists()
     {
-        Log::options(['immediately_write_log' => true]);
+        Log::options([
+            'log_dir' => __DIR__ . '/../log',
+            'immediately_write_log' => true
+        ]);
+
         Log::log('Test info message');
         $logFile = __DIR__ . '/../log/log-' . date('Y-m-d') . '.log';
         $this->assertFileExists($logFile);
