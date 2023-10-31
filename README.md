@@ -5,7 +5,7 @@ Ease to use simple file logger written on php which implement all the log levels
 
 ## Requirements
 
-- PHP >= 5.6 (for wide using)
+- PHP >= 7.1
 
 ## Installation
 
@@ -13,7 +13,7 @@ Install through [composer](https://getcomposer.org/doc/00-intro.md):
 
 ```shell
 composer install --no-dev # or without --no-dev flag if need the tests
-composer update mrwadson/logger # or if already composer.lock file exists
+composer update mrwadson/php-logger # or if already composer.lock file exists
 ```
 
 To add as a VCS repository add following lines in your `composer.json` file:
@@ -23,11 +23,11 @@ To add as a VCS repository add following lines in your `composer.json` file:
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/mrwadson/logger.git"
+            "url": "https://github.com/mrwadson/php-logger.git"
         }
     ],
     "require": {
-        "mrwadson/logger": "dev-master"
+        "mrwadson/php-logger": "dev-master"
     }
 }
 ```

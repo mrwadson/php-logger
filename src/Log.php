@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
 namespace mrwadson\logger;
 
@@ -24,14 +24,14 @@ class Log
     /**
      * RFC 5424 LEVELS
      */
-    const EMERGENCY = 'emergency';
-    const ALERT = 'alert';
-    const CRITICAL = 'critical';
-    const ERROR = 'error';
-    const WARNING = 'warning';
-    const NOTICE = 'notice';
-    const INFO = 'info';
-    const DEBUG = 'debug';
+    public const EMERGENCY = 'emergency';
+    public const ALERT = 'alert';
+    public const CRITICAL = 'critical';
+    public const ERROR = 'error';
+    public const WARNING = 'warning';
+    public const NOTICE = 'notice';
+    public const INFO = 'info';
+    public const DEBUG = 'debug';
 
     private static $messages = [];
 
@@ -65,11 +65,12 @@ class Log
      * Set or Get options for the logger
      *
      * @param string[] $options
+     *
      * @return void | array
      */
-    public static function options($options)
+    public static function options(array $options)
     {
-        if (!is_array($options)) {
+        if (!$options) {
             return self::$options;
         }
         self::$options = array_merge(static::$options, $options);
@@ -81,7 +82,7 @@ class Log
      *
      * @return string
      */
-    private static function initiateDir()
+    private static function initiateDir(): string
     {
         $stack = debug_backtrace();
         $firstFrame = $stack[count($stack) - 1];
@@ -178,7 +179,7 @@ class Log
      *
      * @return string time in seconds
      */
-    public static function timeEnd()
+    public static function timeEnd(): string
     {
         return number_format((microtime(true) - self::$time), 2);
     }
@@ -191,7 +192,7 @@ class Log
      *
      * @return string
      */
-    private static function formatMessage($message, $level)
+    private static function formatMessage($message, $level): string
     {
         return str_replace(['%D%', '%M%', '%L%'], [
             date(self::$options['date_message_format']),
@@ -205,7 +206,7 @@ class Log
      *
      * @return string
      */
-    private static function formatLogFile()
+    private static function formatLogFile(): string
     {
         return self::$options['log_dir'] . '/' . str_replace('%D%', date(self::$options['date_file_format']), self::$options['log_file_format']);
     }
